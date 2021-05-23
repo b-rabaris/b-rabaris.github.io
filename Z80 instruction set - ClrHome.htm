@@ -3,271 +3,15 @@
   <head>
     <title>Z80 instruction set - ClrHome</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style type="text/css">
-      body > div {
-        width: 960px;
-        margin: 0 auto 200px auto;
-        font-family: Verdana;
-        font-size: 24px;
-      }
-      form {
-        margin-top: 2em;
-        font-size: 0.6em;
-      }
-      form span {
-        display: inline-block;
-        position: relative;
-        top: -0.5em;
-      }
-      #search {
-        font-size: 1em;
-        font-family: Verdana;
-        width: 640px;
-      }
-      h3, p {
-        text-align: center;
-      }
-      table {
-        table-layout: fixed;
-        width: 960px;
-      }
-      table, .tooltip {
-        font-size: 0.5em;
-      }
-      th {
-        color: #999;
-      }
-      tr:first-child {
-        height: 2em;
-      }
-      td {
-        font-family: "Courier New", Courier;
-        font-weight: bold;
-        background-color: #ccc;
-        color: #333;
-        padding: 6px;
-        word-wrap: break-word;
-      }
-      .un {
-        background-color: #f66;
-      }
-      .ln {
-        padding: 0;
-      }
-      .hr {
-        background-color: #000;
-        color: #666;
-      }
-      th, .bk {
-        background-color: #333;
-      }
-      .hd, td:hover, td a {
-        background-color: #999;
-        color: #000;
-      }
-      td:first-child {
-        width: 1em;
-        background-color: transparent;
-      }
-      td a {
-        display: block;
-        padding: 6px;
-        font-family: Verdana;
-        text-align: center;
-      }
-      td a:hover, .tooltip {
-        background-color: #fff;
-        text-decoration: none;
-      }
-      .tooltip {
-        position: absolute;
-        width: 160px;
-        border: 3px solid #000;
-        padding: 6px;
-      }
-      #banner {
-        position: fixed;
-        top: 0;
-        right: 50%;
-        z-index: 9;
-        width: 200px;
-        margin-right: -420px;
-        font-family: 'Times New Roman', Times, serif;
-      }
-      #banner > a {
-        display: block;
-        border: 2px solid #aa8;
-        border-top: 0;
-        padding: 8px 4px;
-        background: #cca;
-        color: #331;
-        text-decoration: none;
-        text-align: center;
-        font-style: italic;
-        -webkit-transition: background-color 200ms;
-        -o-transition: background-color 200ms;
-        -ms-transition: background-color 200ms;
-        -moz-transition: background-color 200ms;
-        transition: background-color 200ms;
-      }
-      #banner > a:hover {
-        background: #eec;
-      }
-      #banner span {
-        display: block;
-        font-size: 0.6em;
-      }
-      #banner img {
-        display: block;
-        width: 100%;
-        border: 0;
-      }
-      #banner cite {
-        display: block;
-        padding: 4px 8px;
-        background: #aa8;
-        color: #ddc;
-        font-style: normal;
-      }
-      #banner cite img {
-        float: right;
-        width: 96px;
-        opacity: 0.4;
-        -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=40)';
-        filter: alpha(opacity=40);
-        -webkit-transition: opacity 200ms;
-        -o-transition: opacity 200ms;
-        -ms-transition: opacity 200ms;
-        -moz-transition: opacity 200ms;
-        transition: opacity 200ms;
-      }
-      #banner cite a:hover img {
-        opacity: 0.1;
-        -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=10)';
-        filter: alpha(opacity=10);
-      }
-    </style>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <script type="text/javascript" src="/lib/js/jquery.js"></script>
-    <script type="text/javascript" src="/lib/js/ga.js"></script>
+    <link type="text/css" rel="stylesheet" href="././resources/css/page-styles.css" />
+    <link rel="shortcut icon" href="https://clrhome.org/favicon.ico" />
+    <script type="text/javascript" src="././resources/lib/jquery.js"></script>
+    <script type="text/javascript" src="././resources/js/page-script.js"></script>
     <script type="text/javascript">// <![CDATA[
-      function rehash() {
-        window.location.hash = $('#search').val();
-      }
-
-      function hashchange() {
-        var hash = window.decodeURIComponent(window.location.hash).slice(1);
-
-        if (hash != $('#search').val()) {
-          $('#search').val(hash);
-        }
-
-        $('td').each(function() {
-          if ($(this).text().indexOf(hash) == -1) {
-            $(this).addClass('bk');
-          } else {
-            $(this).removeClass('bk');
-          }
-        });
-      }
-
-      function detip() {
-        $('.tooltip').remove();
-      }
-
-      $(function() {
-        var keyup = 0;
-
-        $('th').hover(function() {
-          $(this).addClass('hr');
-          ($(this).index() ? $(this).parent().parent().find('td:nth-child(' + ($(this).index() + 1).toString() + ')') : $(this).siblings()).addClass('hd');
-        }, function() {
-          $(this).removeClass('hr');
-          ($(this).index() ? $(this).parent().parent().find('td:nth-child(' + ($(this).index() + 1).toString() + ')') : $(this).siblings()).removeClass('hd');
-        });
-
-        $('#search').keyup(function(e) {
-          clearTimeout(keyup);
-          keyup = setTimeout(rehash, 400);
-        });
-
-        $('a').click(function() {
-          $(window).scrollTop($($(this).attr('href')).position().top);
-          return false;
-        });
-
-        $('td:not(:has(\'a\')):not(:first-child)').mouseover(function(e) {
-          var desc = '';
-          var val = $(this).attr('axis').split('|');
-          var flags = ['C', 'N', 'P/V', 'H', 'Z', 'S'];
-
-          for (i = 0; i < 6; i++) {
-            desc += '<br><b>' + flags[i] + ':</b> ';
-
-            switch (val[0].charAt(i)) {
-              case '-':
-                desc += 'unaffected';
-                break;
-              case '+':
-                desc += 'affected as defined';
-                break;
-              case 'P':
-                desc += 'detects parity';
-                break;
-              case 'V':
-                desc += 'detects overflow';
-                break;
-              case '1':
-                desc += 'set';
-                break;
-              case '0':
-                desc += 'reset';
-                break;
-              case '*':
-                desc += 'exceptional';
-                break;
-              default:
-                desc += 'unknown';
-            }
-          }
-
-          detip();
-          $('<div class="tooltip"><b>Opcode:</b> ' + $(this).closest('table').attr('title') + '0123456789ABCDEF'.charAt($(this).parent().index() - 1) + '0123456789ABCDEF'.charAt($(this).index() - 1) + '<br><b>Size (bytes):</b> ' + val[1] + '<br><b>Time (clock cycles):</b> ' + val[2] + desc + '<br>' + val[3] + '</div>').css({'left': e.pageX + 10, 'top': e.pageY + 20}).appendTo('body > div');
-        }).mousemove(function(e) {
-          $('.tooltip').css({'left': e.pageX + 10, 'top': e.pageY + 20});
-        });
-
-        $('#banner').mouseenter(function() {
-          $(this).stop().animate({top: 0});
-        }).mouseleave(function() {
-          $(this).stop().animate({top: -120});
-        });
-
-        $(window).keydown(function(e) {
-          if (e.keyCode == 191) {
-            $('#search').focus().select();
-            return false;
-          }
-        });
-
-        $('table').mouseout(detip);
-        window.onhashchange = hashchange;
-        hashchange();
-      });
     // ]]></script>
   </head>
   <body>
     <div>
-      <form action="https://www.paypal.com/donate" method="post" target="_top">
-        <div>
-          <span>Your contributions help keep our services running!</span>
-          <input type="hidden" name="business" value="T3NJS3T45WMFC" />
-          <input type="hidden" name="item_name" value="ClrHome" />
-          <input type="hidden" name="currency_code" value="USD" />
-          <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-          <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-        </div>
-      </form>
       <p>Type here to search: <input type="text" id="search" /></p>
       <h3 id="table1">Main instructions</h3>
       <table title="">
@@ -2392,17 +2136,17 @@
         </tr>
       </table>
       <div id="banner">
-        <a href="/asm/">
+        <a href="https://clrhome.org/asm/">
           <span>one assembler to rule them all<br />~~~</span>
-          <img src="/asm/bar.png" alt="ORG ONLINE Z80 IDE" />
+          <img src="https://clrhome.org/asm/bar.png" alt="ORG ONLINE Z80 IDE" />
         </a>
         <cite>
-          <a href="/resources/">
-            <img src="/images/emblem.png" alt="ClrHome" />
+          <a href="https://clrhome.org/resources/#z80tables">
+            <img src="https://clrhome.org/images/emblem.png" alt="ClrHome" />
           </a>
           <span>another web<br />resource by</span>
         </cite>
-        <img src="banner.png" alt="" />
+        <img src="https://clrhome.org/table/banner.png" alt="" />
       </div>
     </div>
   </body>
