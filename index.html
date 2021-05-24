@@ -277,6 +277,8 @@
           <td axis="------|3|10|If condition cc is true, ** is copied to pc.">jp z,**</td>
           <td class="ln">
             <a href="#table3">BITS</a>
+            <a href="#table5">IX</a>
+            <a href="#table7">IY</a>
           </td>
           <td axis="------|3|17/10|If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.">call z,**</td>
           <td axis="------|3|17|The current pc value plus three is pushed onto the stack, then is loaded with **.">call **</td>
@@ -299,7 +301,8 @@
           <td axis="------|2|11|A byte from port * is written to a.">in a,(*)</td>
           <td axis="------|3|17/10|If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.">call c,**</td>
           <td class="ln">
-            <a href="#table4">IX</a>
+            <a href="#table4">IX / ix</a>
+            <a href="#table5">BITS</a>
           </td>
           <td axis="++V+++|2|7|Subtracts * and the carry flag from a.">sbc a,*</td>
           <td axis="------|1|11|The current pc value plus one is pushed onto the stack, then is loaded with 18h.">rst 18h</td>
@@ -341,12 +344,18 @@
           <td axis="------|1|4|Sets both interrupt flip-flops, thus allowing maskable interrupts to occur. An interrupt will not occur until after the immediatedly following instruction.">ei</td>
           <td axis="------|3|17/10|If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.">call m,**</td>
           <td class="ln">
-            <a href="#table6">IY</a>
+            <a href="#table6">IY / iy</a>
+            <a href="#table7">BITS</a>
           </td>
           <td axis="++V+++|2|7|Subtracts * from a and affects flags according to the result. a is not modified.">cp *</td>
           <td axis="------|1|11|The current pc value plus one is pushed onto the stack, then is loaded with 38h.">rst 38h</td>
         </tr>
       </table>
+
+
+
+
+<!-- extended instructions table -->
       <h3 id="table2">Extended instructions (ED)</h3>
       <table title="ED">
         <tr>
@@ -368,16 +377,16 @@
           <th>E</th>
           <th>F</th>
         </tr>
-        <tr style="display: none;">
+        <tr style="display: none;" class="hideRow">
           <td></td>
         </tr>
-        <tr style="display: none;">
+        <tr style="display: none;" class="hideRow">
           <td></td>
         </tr>
-        <tr style="display: none;">
+        <tr style="display: none;" class="hideRow">
           <td></td>
         </tr>
-        <tr style="display: none;">
+        <tr style="display: none;" class="hideRow">
           <td></td>
         </tr>
         <tr>
@@ -456,10 +465,10 @@
           <td axis="------|2|8|Sets interrupt mode 2.">im 2</td>
           <td></td>
         </tr>
-        <tr style="display: none;">
+        <tr style="display: none;" class="hideRow">
           <td></td>
         </tr>
-        <tr style="display: none;">
+        <tr style="display: none;" class="hideRow">
           <td></td>
         </tr>
         <tr>
@@ -501,6 +510,11 @@
           <td></td>
         </tr>
       </table>
+
+
+
+
+<!-- bit instructions table -->
       <h3 id="table3">Bit instructions (CB)</h3>
       <table title="CB">
         <tr>
@@ -827,6 +841,11 @@
           <td axis="------|2|8|Sets bit 7 of a.">set 7,a</td>
         </tr>
       </table>
+
+
+
+
+<!-- IX instructions table -->
       <h3 id="table4">IX instructions (DD)</h3>
       <table title="DD">
         <tr>
@@ -1155,6 +1174,11 @@
           <td></td>
         </tr>
       </table>
+
+
+
+
+<!-- IX bit instructions table -->
       <h3 id="table5">IX bit instructions (DDCB)</h3>
       <table title="DDCB**">
         <tr>
@@ -1481,6 +1505,11 @@
           <td class="un" axis="------|4|23|Sets bit 7 of the memory location pointed to by ix plus *.">set 7,(ix+*),a</td>
         </tr>
       </table>
+
+
+
+
+<!-- IY instructions table -->
       <h3 id="table6">IY instructions (FD)</h3>
       <table title="FD">
         <tr>
@@ -1809,6 +1838,11 @@
           <td></td>
         </tr>
       </table>
+
+
+
+
+<!-- IY bit instructions table -->
       <h3 id="table7">IY bit instructions (FDCB)</h3>
       <table title="FDCB**">
         <tr>
