@@ -1,5 +1,5 @@
       body > div {
-        width: 960px;
+        width: 95%;
         margin: 0 auto 200px auto;
         font-family: Verdana;
         font-size: 24px;
@@ -23,10 +23,10 @@
       }
       table {
         table-layout: fixed;
-        width: 960px;
+        width: 96%;
       }
       table, .tooltip {
-        font-size: 0.5em;
+        font-size: 0.75em;
       }
       th {
         color: #999;
@@ -52,8 +52,14 @@
         background-color: #000;
         color: #666;
       }
-      th, .bk {
+      th {
         background-color: #333;
+      }
+      .bk { /* this cell is unselected */
+        background-color: #333;
+      }
+      .inv { /* make rows with NONE selected cells invisible */
+      display: none;
       }
       .hd, td:hover, td a {
         background-color: #999;
@@ -75,8 +81,10 @@
       }
       .tooltip {
         position: absolute;
-        width: 160px;
-        border: 3px solid #000;
+        width: 250px;
+        border: 3px dashed #07f;
+        background-color: #7f0;
+        font-size: 0.7em;
         padding: 6px;
       }
       #banner {
