@@ -1,6 +1,7 @@
 ﻿
       function rehash() {
         window.location.hash = $('#search').val();
+	recalcTable();
       }
 
       function hashchange() {
@@ -11,16 +12,48 @@
         }
 
         $('td').each(function() {
-          if ($(this).text().indexOf(hash) == -1) {
-            $(this).addClass('bk');
-          } else {
+	let tokens = [];
+	let keyWords = hash.split("`").filter(str=>str.length>0).filter(str => str !== '!');
+	let  includeRule = keyWords.filter(str => str.startsWith('!') 
+		? !$(this).text().includes(str.substr(1)) && !$(this).hasClass(str.substr(1))
+		: $(this).text().includes(str) || $(this).hasClass(str)).length == keyWords.length;
+          if (
+	  ! keyWords.length || includeRule
+	  ) {
             $(this).removeClass('bk');
+          } else {
+            $(this).addClass('bk');
           }
+	  $("th").each(function(){
+	  });
         });
+      recalcTable(); // !!! after search changed
       }
 
       function detip() {
         $('.tooltip').remove();
+      }
+
+      function modify(elem){
+      	  if(elem.siblings().filter(".bk").length == 16){
+	  elem.addClass('inv');
+	  } else {
+	  elem.removeClass('inv');
+	  }
+      }
+      function modifyRow(elem){
+      	  if(elem.siblings().filter(".bk").length == 16){
+	  elem.parent().addClass('inv');
+	  } else {
+	  elem.parent().removeClass('inv');
+	  }
+      }
+      function recalcTable(){
+      $('th').each(function(){if($(this).index() == 0) {modifyRow($(this));}})
+      $('table').each(function(){if(
+      $(this).children("tbody").children("tr").filter(".hideRow").length + 
+      $(this).children("tbody").children("tr").filter(".inv").length == /*16*/$(this).children("tbody").children("tr").length - 1
+      ){$(this).addClass("inv");$(this).prev().addClass("inv");}else{$(this).prev().removeClass("inv");$(this).removeClass("inv")}})
       }
 
       $(function() {
@@ -32,6 +65,7 @@
         }, function() {
           $(this).removeClass('hr');
           ($(this).index() ? $(this).parent().parent().find('td:nth-child(' + ($(this).index() + 1).toString() + ')') : $(this).siblings()).removeClass('hd');
+          ($(this).index() ? $(this).parent().parent().find('td:nth-child(' + ($(this).index() + 1).toString() + ')') : $(this).siblings()).removeClass('inv');
         });
 
         $('#search').keyup(function(e) {
@@ -101,4 +135,5 @@
         $('table').mouseout(detip);
         window.onhashchange = hashchange;
         hashchange();
+	recalcTable();
       });
